@@ -11,7 +11,7 @@ keypoints:
 - "You can create Docker containers on cloud computing resources just using a web browser."
 - "Google Cloud's Compute Engine is an online repository storage service that can create Docker containers to perform computation on demand."
 ---
-## Creating Containers on Cloud Platforms
+# Creating Containers on Cloud Platforms
 There are lots of ways containers can be run on cloud computing platforms (a.k.a., "in the cloud"). Most commercial cloud providers now offer a container hosting service that will connect to the Docker Hub (and their own container registries) in order to fetch the container images that you specify, and charge for the time and resources that the containers use.
 
 ## Free and Introductory Offer Container Hosting Options 
@@ -23,31 +23,31 @@ For this lesson (run by AIMLAC CDT, January 2021) we have received free credit f
 
 {% comment %}
 
-#### Google Cloud
+## Using Containers with Google Cloud
 
 $300 free credit for 3 months when you signup and give credit card details. Free f1-micro VM with 1 shared CPU, 600 MB of RAM and 10GB disk. Free 50 hours per month of Cloud Run time which launches containers to handle web requests. 
 https://cloud.google.com/free
 
-#### Microsoft Azure
+## Microsoft Azure
 $100 free credit for students signing up via the Github student pack. 
 https://education.github.com/pack?sort=popularity&tag=Cloud
 
 $200 free trial for 30 days. 12 months free B1S virtual machine.
 https://azure.microsoft.com/en-gb/offers/ms-azr-0044p/
 
-#### Amazon Web Services
+## Amazon Web Services
 750 hours per month free t2.micro or t3.micro virtual machine for the first 12 months.
 https://aws.amazon.com/free/
 
-#### Digital Ocean 
+## Digital Ocean 
 $100 free credit for students signing up via the Github student pack.
 https://education.github.com/pack?sort=popularity&tag=Cloud
 
 {% endcomment %}
 
-### Running a container in the cloud, using your Google account
+## Running a container in the cloud, using your Google account
 
-#### Setting up your account
+### Setting up your account
 
 - Click the link you've been sent to activate your Google Cloud credit. This should create a billing account using the credit you've been given. 
 - Open a web browser window and visit <https://console.cloud.google.com/>.
@@ -55,7 +55,7 @@ https://education.github.com/pack?sort=popularity&tag=Cloud
 - Create a new project called AIMLAC and link it to the billing account you just created. Be especially careful if you already use Google Cloud personally that you are billing the right account.
 
 
-#### Creating a virtual machine
+### Creating a virtual machine
 - Click on the grill menu, Compute Engine, VM Instances
 
 ![VM instances](../fig/gcloud_step1.png)
@@ -66,7 +66,7 @@ https://education.github.com/pack?sort=popularity&tag=Cloud
 
 ![Cloud OS](../fig/gcloud_step2.png)
 
-#### SSH into your container from the Google Cloud Console
+### SSH into your container from the Google Cloud Console
 
 - Click on the SSH option under the connect column in the VM Instances page and choose "Open in browser Window."
 
@@ -82,7 +82,7 @@ $ docker run -it alice/alpine-python
 
 When using the `docker run` command (as you have done previously), the container takes some default actions after being created, which are specified in your Dockerfile (e.g., the `CMD` line).
 
-#### SSH into your container from your computer's SSH client
+### SSH into your container from your computer's SSH client
 
 If you want to SSH into your Google Cloud virtual machine from your computer's SSH client instead of the web interface you'll need to generate an SSH key and add it to the virtual machine.
 
@@ -94,7 +94,7 @@ $ ssh-keygen
 {: .language-bash}
 
 This will create two files in the .ssh directory inside your home directory. One called id_rsa and the other id_rsa.pub. These form the public and private halves of an encryption key, you need to place the public half on any systems you want to login to.
-Display the contents of the id_rsa.pub file and copy it to the clipboard. The from the Compute Engine VM Instances page do the following:
+Display the contents of the id_rsa.pub file and copy it to the clipboard. Then from the Compute Engine VM Instances page do the following:
 
 - Click on the instance name
 - Click edit on the top of the screen
@@ -106,24 +106,32 @@ Display the contents of the id_rsa.pub file and copy it to the clipboard. The fr
 ![SSH keys](../fig/gcloud_ssh_keys.png)
 
 - Return to the VM Instances page
-- Note the external IP address of your virtual machine (104.154.185.63 in the screenshot above)
-- Open a terminal and type ssh followed by a space and the IP address.
+- Note the external IP address of your virtual machine (104.154.185.63 in the screenshot above, your's will be something different)
+- Open a terminal and type ssh followed by a space and the external IP address.
 - You should be logged in automatically to your virtual machine without being asked for a password.
 - Note that your username will be the same as the username which you use on your computer and which was specified in the key file.
 
 
-#### Destroying your virtual machine 
+### Destroying your virtual machine 
 
 - From the VM Instances page click the 3 vertical dots at the end of line for your VM.
 - Choose "Delete"
 - Confirm the deletion
 - Your VM and any associated disks will be deleted
-![Delete virtual machine](../fig/gcloud_ssh_keys.png)
+![Delete virtual machine](../fig/gcloud_delete_vm.png)
 
 
-### Running a web server container from Google Clound
+### Running a web server container from Google Cloud
 
-Lets create a new Dockerfile which defines a container based on the nginx webserver. Open up a text editor for a new Dockerfile and type/paste in the following:
+Now lets create a new Dockerfile which defines a container based on the nginx webserver. Create a directory called docker-webserver-example and `cd` into it.
+
+~~~
+mkdir docker-webserver-example
+cd docker-webserver-example
+~~~
+{: .bash}
+
+Open up a text editor for a new `Dockerfile` and type/paste in the following:
 
 ~~~
 FROM nginx
@@ -141,7 +149,7 @@ EXPOSE 80/tcp
 ENTRYPOINT ["bash","/startup.sh"]
 ~~~
 
-In the same directory create another file and call it startup.sh and type/paste in the following code. This code will start the nginx web server and then every second it will update index.html (the default webpage) with the current time and a random number.
+In the same directory create another file and call it `startup.sh` and type/paste in the following code. This code will start the nginx web server and then every second it will update index.html (the default webpage) with the current time and a random number.
 
 ~~~
 #!/bin/bash
@@ -154,6 +162,7 @@ while [ "0" = "0" ] ; do
 
     echo "My latest random number is $RANDOM and the time is $time" > /usr/share/nginx/html/index.html
     sleep 1
+done
 ~~~
 {: .language-bash}
 
