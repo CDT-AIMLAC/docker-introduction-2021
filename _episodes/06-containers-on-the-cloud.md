@@ -11,72 +11,91 @@ keypoints:
 - "You can create Docker containers on cloud computing resources just using a web browser."
 - "Bitbucket is an online repository storage service that can create Docker containers to perform computation in response to files changing in your repositories."
 ---
-### Containers can be created on cloud computing platforms
-There are lots of ways containers can be created on cloud computing platforms (a.k.a., "in the cloud"). Most commercial cloud providers now offer a container hosting service that will connect to the Docker Hub in order to fetch the container images that you specify, and charge for the time and resources that the containers use. The container hosting will usually be significantly cheaper than full virtualisation services that might be on offer.
+## Containers can be created on cloud computing platforms
+There are lots of ways containers can be created on cloud computing platforms (a.k.a., "in the cloud"). Most commercial cloud providers now offer a container hosting service that will connect to the Docker Hub in order to fetch the container images that you specify, and charge for the time and resources that the containers use.
 
-Note also that most cloud providers will give you sign-up credit that you can use for free after you first create your account.
+### Free and Introductory Offer Container Hosting Options 
 
-For this lesson, though, we instead use an excellent software project repository platform, Bitbucket, that allows users a monthly quota of minutes for which containers of your choice can be run. Bitbucket allows containers to be created in response to the modification of files within your software project.
+Please note these options can be constantly changing, check with the Cloud providers webpage for the latest details. Beware that many of the free trials require you to give payment information and you will be billed at the end of the trial or if you exceed the free trial limits. Many of the cloud providers offer charge limit options, set these to ensure you don't get an sudden large bill. 
 
-> ## There are many excellent sites for storing public software repositories
-> - Note that Bitbucket, GitHub and GitLab all achieve similar functions.
-> - Bitbucket offers container-based features that are easier to get at than the equivalent functions in GitHub, although GitHub will soon catch up when they release their GitHub Actions functionality publicly.
-{: .callout}
+#### Google Cloud
 
-### Running a container in the cloud, using your Bitbucket account
+$300 free credit for 3 months when you signup and give credit card details. Free f1-micro VM with 1 shared CPU, 600 MB of RAM and 10GB disk. Free 50 hours per month of Cloud Run time which launches containers to handle web requests. 
+https://cloud.google.com/free
 
-Because the ability to use the `git` version management tool is not a prerequisite of this session, we will use Bitbucket in an atypical manner. However we should still be able to clearly see Bitbucket's cloud servers running a container of your choice, under your control.
+#### Microsoft Azure
+$100 free credit for students signing up via the Github student pack. 
+https://education.github.com/pack?sort=popularity&tag=Cloud
 
-- Open a web browser window and visit <https://bitbucket.org/>.
-- Log into your Bitbucket account.
-- Click the "create" (or just "+", if the menu is not expanded) button near the top-left of the page.
-- In the Create menu that appears, choose "Repository".
-- You will need to fill in the "Create new repository" form:
-    - You need to choose a Repository name: I am going to choose "use-my-container", and you are welcome to do the same.
-    - I unchecked the "This is a private repository" button, to make my repository public
-    - All of the other defaults should be OK, including the advanced settings
-- Activate the "Create repository" button
-- A page with heading "Let's put some bits in your bucket" appears, since the aim of Bitbucket is to host repositories of code and data... but we will ignore this workflow, and instead, you should click "Pipelines" in the second menu in from the left.
-- A page that promotes Bitbucket Pipelines should appear. This page also notes that you have 500 free minutes per month (for a free account): this is minutes of time that your containers are allowed to run, on Bitbucket's cloud servers. You just need to click the "Start using Pipelines" link in the bottom-centre.
-- Under the "Choose a language template" heading that appears, choose the "Other" pull-down menu, and select "Other" from the bottom of that list.
-- If an example "bitbucket-pipelines.yml" file appears, then all is well, and you can continue with the next section.
+$200 free trial for 30 days. 12 months free B1S virtual machine.
+https://azure.microsoft.com/en-gb/offers/ms-azr-0044p/
 
-### Edit your repository's `bitbucket-pipelines.yml` file through the web
+#### Amazon Web Services
+750 hours per month free t2.micro or t3.micro virtual machine for the first 12 months.
+https://aws.amazon.com/free/
 
-You should be looking at a web-based text editor that is headed "bitbucket-pipelines.yml". The one that I see has 13 lines, all of which are numbered on the left of the text editor.
+#### Digital Ocean 
+$100 free credit for students signing up via the Github student pack.
+https://education.github.com/pack?sort=popularity&tag=Cloud
 
-Bitbucket Pipelines allow you to specify software tools to run, for example, in response to files being changed in your Bitbucket projects. The Bitbucket servers run your software tools within Docker containers, and thus Bitbucket Pipelines can specify Docker images to fetch from the Docker Hub.
+### Educational Credits
+For this lesson (run by AIMLAC CDT, January 2021) we have received free credit from Google for $50 per student, you will not need to register a credit card to use this. You will have each been emailed a link to activate this.
 
-Change your repository's `bitbucket-pipelines.yml` file to be similar to the following example, but note that you need to replace the Docker Hub user ID (alice in example) with yours. Also, ensure that your indentation steps in line-by-line, the language being used (YAML) gives significance to the indentation of the lines.
-~~~
-image: alice/my-container
+### Running a container in the cloud, using your Google account
 
-pipelines:
-  default:
-    - step:
-        script:
-          - /bin/cat /root/my_message
-~~~
+- Open a web browser window and visit <https://console.cloud.google.com/>.
+- Log into your Google account.
+- Click billing
+- Click on the grill menu, Compute Engine, VM Instances
 
-Click the "commit file" button. After you commit your `bitbucket-pipelines.yml` file, the Bitbucket Pipeline will download the Docker image you specified from the Docker Hub, and display the progress of the computations it runs.
+![VM instances](screenshots/gcloud_step1.png)
 
-When using the `docker run` command (as you have done previously), the container takes some default actions after being created, which are specified in your Dockerfile (e.g., the `CMD` line). Bitbucket Pipelines disable these default actions, instead using the commands listed under the "script:" section in your `bitbucket-pipelines.yml`. Note that hyphens at the same indentation level are treated as an itemised list. There is only one item in our `script:` list, namely the command `/bin/cat /root/my_message`.
+- Click on "Create Instance" on the page showing the list of current instances.
+- Give your VM a name, as we won't need much processing power choose f1-micro as the Machine type by selecting the N1 Series.
+- Change the operating system to the Container Optimised OS
 
-If the pipeline runs successfully, a green heading containing a tick icon will be shown near the top of the page. On the right-hand-side of the page, you should see the following headings:
-- Build step
-- `/bin/cat /root/my_message`
-- Build teardown
+![Cloud OS](screenshots/gcloud_step2.png)
 
-Click on the `/bin/cat /root/my_message` heading, and you should see that your custom message was shown.
+#### SSH into your container from the Google Cloud Console
 
-While it is difficult to argue that this container achieves important computational work, you have, nonetheless, demonstrated that Docker images that you create can be run on the cloud. Moreover, many cloud organisations that are willing to create containers from your images will offer generous allowances to you to do so, even if you only have a free account.
+- If for whatever reason you need to login to the instane then click on the SSH option under the connect column in the VM Instances page and choose "Open in browser Window."
 
-{% comment %}
-Going further section
-### Digital Ocean hosting
+![SSH to VM](screenshots/gcloud_step6.png)
+![SSH to VM](screenshots/gcloud_step7.png)
 
-Cloud providers such as Digital Ocean
-{% endcomment %}
+- From here you can run docker commands and see the container we specified is running.
+
+![SSH to VM](screenshots/gcloud_step8.png)
+
+When using the `docker run` command (as you have done previously), the container takes some default actions after being created, which are specified in your Dockerfile (e.g., the `CMD` line).
+
+#### SSH into your container from your computer's SSH client
+
+#### Destroying your virtual machine 
+
+### Running a web server container from Google Clound
+
+Go back to the Cloud console. 
+
+- Click on "Create Instance" on the page showing the list of current instances.
+- Give your VM a name, as we won't need much processing power choose f1-micro as the Machine type by selecting the N1 Series.
+- Tick the option "Deploy a container image to this VM instance".
+- Enter the path to your container on Docker Hub (in this case colinsauze/5min-cloud-docker) in the "Container image" box.
+- Scrolldown and tick "Allow HTTP traffic" at the bottom of the page under Firewall
+
+![Allow HTTP](screenshots/gcloud_step3.png)
+
+- Click create
+
+- Go back to the VM Instances page in the Google Cloud Console and click on the link to the external IP address (104.154.185.63 in this example) or type this address into a new tab/window of your web browser.
+
+![List of instances](screenshots/gcloud_step4.png)
+
+- You should see a webpage giving the time and a random number.
+
+![Working webpage](screenshots/gcloud_step5.png)
+
+- Don't forget to delete the instance when you are done with it.
 
 {% include links.md %}
 
