@@ -11,12 +11,17 @@ keypoints:
 - "You can create Docker containers on cloud computing resources just using a web browser."
 - "Bitbucket is an online repository storage service that can create Docker containers to perform computation in response to files changing in your repositories."
 ---
-## Containers can be created on cloud computing platforms
-There are lots of ways containers can be created on cloud computing platforms (a.k.a., "in the cloud"). Most commercial cloud providers now offer a container hosting service that will connect to the Docker Hub in order to fetch the container images that you specify, and charge for the time and resources that the containers use.
+## Creating Containers on Cloud Platforms
+There are lots of ways containers can be created on cloud computing platforms (a.k.a., "in the cloud"). Most commercial cloud providers now offer a container hosting service that will connect to the Docker Hub (and their own container registries) in order to fetch the container images that you specify, and charge for the time and resources that the containers use.
 
-### Free and Introductory Offer Container Hosting Options 
+## Free and Introductory Offer Container Hosting Options 
 
 Please note these options can be constantly changing, check with the Cloud providers webpage for the latest details. Beware that many of the free trials require you to give payment information and you will be billed at the end of the trial or if you exceed the free trial limits. Many of the cloud providers offer charge limit options, set these to ensure you don't get an sudden large bill. 
+
+## Educational Credits
+For this lesson (run by AIMLAC CDT, January 2021) we have received free credit from Google for $50 per student, you will not need to register a credit card to use this. You will have each been emailed a link to activate this.
+
+{% comment %}
 
 #### Google Cloud
 
@@ -38,8 +43,7 @@ https://aws.amazon.com/free/
 $100 free credit for students signing up via the Github student pack.
 https://education.github.com/pack?sort=popularity&tag=Cloud
 
-### Educational Credits
-For this lesson (run by AIMLAC CDT, January 2021) we have received free credit from Google for $50 per student, you will not need to register a credit card to use this. You will have each been emailed a link to activate this.
+{% endcomment %}
 
 ### Running a container in the cloud, using your Google account
 
